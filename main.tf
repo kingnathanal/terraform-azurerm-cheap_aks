@@ -1,8 +1,8 @@
 resource "azurerm_kubernetes_cluster" "this" {
-  name                      = "cheap-aks"
+  name                      = var.aks_name
   location                  = var.location
   resource_group_name       = var.resource_group_name
-  dns_prefix                = "cheapaks"
+  dns_prefix                = var.aks_dns_prefix
   node_resource_group       = "${var.resource_group_name}-managed"
   sku_tier                  = "Free"
   oidc_issuer_enabled       = true
@@ -17,7 +17,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   default_node_pool {
     name           = "kubepool"
     node_count     = 1
-    vm_size        = "Standard_B2als_v2" // Standard_B2s - use when no quota
+    vm_size        = var.aks_sku
     vnet_subnet_id = var.vnet_subnet_id
     os_sku         = "Ubuntu"
   }
