@@ -31,3 +31,12 @@ variable "aks_dns_prefix" {
   type        = string
   default     = "cheapaks"
 }
+
+variable "identity" {
+  description = "The identity to assign to the AKS cluster."
+  type        = map(object({
+    type = string
+    identity_ids = list(string)
+  }))
+  default = null
+}

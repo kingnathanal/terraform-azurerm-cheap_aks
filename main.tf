@@ -22,7 +22,18 @@ resource "azurerm_kubernetes_cluster" "this" {
     os_sku         = "Ubuntu"
   }
 
-  identity {
-    type = "SystemAssigned"
+  dynamic "identity" {
+    for_each = var.identity == null ? [] : ["enabled"]
+    content {
+      type = identity.value["type"]
+      identity_ids = identity.value["identity_ids"]
+    }
+  }
+
+  dynamic "identity" {
+    for_each = var.identity != null ? [] : ["enabled"]
+    content {
+      type = "SystemAssigned"
+    }
   }
 }
