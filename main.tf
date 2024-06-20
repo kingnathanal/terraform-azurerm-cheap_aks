@@ -25,8 +25,8 @@ resource "azurerm_kubernetes_cluster" "this" {
   dynamic "identity" {
     for_each = var.identity == null ? [] : ["enabled"]
     content {
-      type = identity.value["type"]
-      identity_ids = identity.value["identity_ids"]
+      type = var.identity.type
+      identity_ids = var.identity.identity_ids
     }
   }
 
