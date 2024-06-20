@@ -34,9 +34,11 @@ variable "aks_dns_prefix" {
 
 variable "identity" {
   description = "The identity to assign to the AKS cluster."
-  type        = map(object({
+  type        = object(
+    {
     type = string
     identity_ids = list(string)
-  }))
+  }
+  )
   default = null
 }
