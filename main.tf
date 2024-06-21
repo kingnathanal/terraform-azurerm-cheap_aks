@@ -8,7 +8,6 @@ resource "azurerm_kubernetes_cluster" "this" {
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
 
-
   network_profile {
     network_plugin    = "kubenet"
     load_balancer_sku = "basic"
@@ -22,10 +21,25 @@ resource "azurerm_kubernetes_cluster" "this" {
     os_sku         = "Ubuntu"
   }
 
+  azure_active_directory_role_based_access_control {
+    managed            = true
+    azure_rbac_enabled = true
+  }
+
+  dynamic "kubelet_identity" {
+
+    for_each = var.msi_identity == null ? [] : ["enabled"]
+    content {
+      client_id                 = var.msi_identity.client_id
+      object_id                 = var.msi_identity.principal_id
+      user_assigned_identity_id = var.msi_identity.user_assigned_id
+    }
+  }
+
   dynamic "identity" {
     for_each = var.identity == null ? [] : ["enabled"]
     content {
-      type = var.identity.type
+      type         = var.identity.type
       identity_ids = var.identity.identity_ids
     }
   }

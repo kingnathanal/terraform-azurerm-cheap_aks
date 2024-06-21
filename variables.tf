@@ -17,7 +17,7 @@ variable "vnet_subnet_id" {
 variable "aks_sku" {
   description = "The SKU of the AKS cluster."
   type        = string
-  default = "Standard_B2als_v2"
+  default     = "Standard_B2als_v2"
 }
 
 variable "aks_name" {
@@ -34,11 +34,23 @@ variable "aks_dns_prefix" {
 
 variable "identity" {
   description = "The identity to assign to the AKS cluster."
-  type        = object(
+  type = object(
     {
-    type = string
-    identity_ids = list(string)
-  }
+      type         = string
+      identity_ids = list(string)
+    }
+  )
+  default = null
+}
+
+variable "msi_identity" {
+  description = "The identity to assign to the AKS cluster."
+  type = object(
+    {
+      client_id        = string
+      principal_id     = string
+      user_assigned_id = string
+    }
   )
   default = null
 }
