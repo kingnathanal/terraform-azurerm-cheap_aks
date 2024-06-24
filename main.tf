@@ -19,6 +19,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     vm_size        = var.aks_sku
     vnet_subnet_id = var.vnet_subnet_id
     os_sku         = "Ubuntu"
+    temporary_name_for_rotation = "kubepooltemp"
   }
 
   azure_active_directory_role_based_access_control {
