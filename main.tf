@@ -1,3 +1,7 @@
+data "azurerm_subscription" "current" {
+  subscription_id = var.subscription_id
+}
+
 resource "azurerm_kubernetes_cluster" "this" {
   name                      = var.aks_name
   location                  = var.location
@@ -23,8 +27,8 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   azure_active_directory_role_based_access_control {
-    managed            = true
     azure_rbac_enabled = true
+    tenant_id = data.azurerm_subscription.current.tenant_id
   }
 
   dynamic "kubelet_identity" {

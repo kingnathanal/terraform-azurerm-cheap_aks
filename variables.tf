@@ -54,3 +54,8 @@ variable "msi_identity" {
   )
   default = null
 }
+
+variable "subscription_id" {
+  type = string
+  description = "value of the subscription id"
+}
